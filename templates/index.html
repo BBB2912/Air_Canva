@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVPaint</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Loading Animation */
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Fullscreen overlay for loader */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+        }
+
+        /* Hint Text */
+        .hint {
+            color: white;
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+
+    
+</head>
+<body>
+    <header>
+        <h1>CVPaint</h1>
+    </header>
+
+    <div class="overlay" id="loadingOverlay">
+        <div class="loader"></div>
+        <div class="hint">Hint: To stop the painting window, press the 'D' key.</div>
+
+    </div>
+
+    <section>
+        <p>Welcome to CVPaint, a virtual painting application powered by Computer Vision and MediaPipe. Click the button below to start painting with your webcam!</p>
+        <img src="{{ url_for('static', filename='images/hand_landmarks.png') }}" alt="MediaPipe Hand Landmarks">
+        <form id="paintForm">
+            <button type="button" onclick="startPaint();">Start Paint</button>
+        </form>
+    </section>
+    
+
+    <script>
+        function showLoader() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+
+        function hideLoader() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+
+        function startPaint() {
+            showLoader();
+            fetch('{{ url_for("start_paint") }}', {
+                method: 'POST'
+            }).then(response => {
+                // Simulate a delay to show the loader
+                setTimeout(() => {
+                    hideLoader();
+                    console.log('Painting started!');
+                }, 9000); // Simulate loading time (adjust as necessary)
+            }).catch(error => {
+                console.error('Error:', error);
+                hideLoader(); // Hide loader on error
+            });
+        }
+    </script>
+</body>
+</html>

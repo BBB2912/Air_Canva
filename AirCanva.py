@@ -24,7 +24,7 @@ class AirCanvas:
 
         cv.waitKey(1)
 
-        self.tools = cv.imread(r".\static\images\tools.png", cv.IMREAD_UNCHANGED)
+        self.tools = cv.imread(r"static\images\tools.png", cv.IMREAD_UNCHANGED)
         self.tools = self.tools.astype('uint8')
         self.tools = cv.cvtColor(self.tools, cv.COLOR_BGR2RGB)
 

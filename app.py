@@ -10,7 +10,7 @@ def index():
 @app.route('/start_paint', methods=['POST'])
 def start_paint():
     # Start the Air_Canvas.py script
-    subprocess.Popen(["python", "Air_canvas/AirCanva.py"])
+    subprocess.Popen(["python", "AirCanva.py"])
     return jsonify(success=True)
 
 if __name__ == "__main__":
